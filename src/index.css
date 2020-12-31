@@ -44,14 +44,15 @@
   outline: none;
 }
 
-/* On mouse-over */
+/*!* On mouse-over *!
 .sidenav a:hover, .dropdown-btn:hover {
   color: white;
-}
+}*/
 
-.menu-item:hover {
+/*.menu-item:hover {
   background-color: #44bcd8;
-}
+}*/
+
 
 /* Add an active class to the active dropdown button */
 .active {

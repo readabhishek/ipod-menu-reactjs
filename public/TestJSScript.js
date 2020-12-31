@@ -1,4 +1,4 @@
 
-export const abc = () => {
+abc = () => {
     console.log("hiii");
 }

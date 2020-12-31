@@ -6,7 +6,6 @@ class IpodMainMenu extends React.Component {
     constructor(props) {
         super(props);
 
-
         const script1 = document.createElement("script");
         script1.src = "https://kit.fontawesome.com/7c81f1d981.js";
         script1.async = true;
@@ -37,8 +36,16 @@ class IpodMainMenu extends React.Component {
     }
 
 
+    
+
 
     componentDidMount() {
+
+
+
+
+
+
 
 
         /* Loop through all dropdown buttons to toggle between hiding and showing its dropdown content.
@@ -46,6 +53,8 @@ class IpodMainMenu extends React.Component {
         console.log("IpodMainMenu Component Did Mount");
         let dropdown = document.getElementsByClassName("dropdown-btn");
         let i;
+
+
 
         for (i = 0; i < dropdown.length; i++) {
             dropdown[i].addEventListener("click", function () {
@@ -81,30 +90,96 @@ class IpodMainMenu extends React.Component {
         });
 
         function setOutput(data) {
+
+
+            function moveMenuTopToBottom (menuItems, activeItemIndex, topToBottom) {
+
+
+                if (topToBottom === true) {
+                    if (activeItemIndex < menuItems.length - 1) {
+                        activeItemIndex++;
+                    }
+                } else {
+                    if (activeItemIndex === -1) {
+                        activeItemIndex = menuItems.length;
+                    }
+                    if (activeItemIndex > 0) {
+                        activeItemIndex--;
+                    }
+                }
+                /*console.log("after change e.target: ", activeItemIndex);*/
+                menuItems[activeItemIndex].className += " active";
+
+            }
+
+            function handleTopMenuClickEvent (isTopToBottom)  {
+                /*const {updateMenuItem} = this.props;*/
+                /*updateMenuItem('topMenuItem', e.target.innerHTML);*/
+
+                /* First make all the Menu Items - without active class. Note active class make the item focused */
+                let menuItems = document.getElementsByClassName("menu-item");
+                let activeItem = '';
+                for (let i = 0; i < menuItems.length; i++) {
+                    if (menuItems[i].className.includes("active")) {
+                        activeItem = menuItems[i];
+                        menuItems[i].className = menuItems[i].className.replace("active", '');
+                        break;
+                    }
+                }
+                /*console.log("activeItem: ", activeItem);*/
+
+                let i = -1;
+                if (activeItem !== '') {
+                    i = Array.prototype.indexOf.call(menuItems, activeItem); /* This gives the index of active items. */
+                }
+
+                moveMenuTopToBottom(menuItems, i, isTopToBottom);
+
+            }
+
+
+
+
+
             let outputStr = "> ";
+
+            let dis4mOrigin = 0;
+            let initialDistance = 0;
             let angle = '';
             for (let i = 0; i < data.length; i++) {
                 outputStr += data[i][0] + ": " + data[i][1] + ((i === data.length - 1) ? '' : ' , ');
                 angle = data[1][1];
+                dis4mOrigin = data[2][1];
             }
             /*let output = document.getElementById('output');*/
-            console.log(angle.substring(0,angle.length-1));
+            /*console.log(angle.substring(0,angle.length-1));*/
+            /*console.log(dis4mOrigin.substring(0, dis4mOrigin.length - 1));*/
+
+
+            dis4mOrigin = dis4mOrigin.substring(0, dis4mOrigin.length - 1);
+
+
+
+            if ((dis4mOrigin - initialDistance) > 15) {
+                handleTopMenuClickEvent(true);
+                console.log("ClockWise: ","dis4mOrigin: ", dis4mOrigin, "initialDistance: ", initialDistance, "Diff", dis4mOrigin - initialDistance);
+
+                initialDistance = dis4mOrigin;
+            }
+
+            if ((dis4mOrigin - initialDistance) < 15) {
+                handleTopMenuClickEvent(false);
+                console.log("Anti-ClockWise: ","dis4mOrigin: ", dis4mOrigin, "initialDistance: ", initialDistance, "Diff", dis4mOrigin - initialDistance);
+                initialDistance = dis4mOrigin;
+            }
+
+
         }
 
 
         this.addEventsToElements();
 
 
-    }
-
-    handleTopMenuClickEvent = (e) => {
-        const {updateMenuItem} = this.props;
-        updateMenuItem('topMenuItem', e.target.innerHTML);
-    }
-
-    handleSubMenuLevel1ClickEvent = (e) => {
-        const {updateMenuItem} = this.props;
-        updateMenuItem('subMenuItemLevel1', e.target.innerHTML);
     }
 
 
@@ -126,29 +201,17 @@ class IpodMainMenu extends React.Component {
                         <div id="Games" className="menu-item">
                             <a href="#Games" onClick={(e) => this.handleTopMenuClickEvent(e)}>Games</a>
                         </div>
-                        <div className="menu-item">
-                            <button className="dropdown-btn">PlayLists
-                                <i className="fa fa-caret-down"></i>
-                            </button>
+                        <div id="Playlists" className="menu-item">
+                            <a href="#Games" onClick={(e) => this.handleTopMenuClickEvent(e)}>PlayLists</a>
                         </div>
-                        <div id="drop-down-submenu1" className="dropdown-container">
-                            <div id="Link1" className="menu-item">
-                                <a href="#Link1" onClick={(e) => this.handleSubMenuLevel1ClickEvent(e)}>Link 1</a>
-                            </div>
-                            <div id="Link2" className="menu-item">
-                                <a href="#Link2" onClick={(e) => this.handleSubMenuLevel1ClickEvent(e)}>Link 2</a>
-                            </div>
-                            <div id="Link3" className="menu-item">
-                                <a href="#Link3" onClick={(e) => this.handleSubMenuLevel1ClickEvent(e)}>Link 3</a>
-                            </div>
-                        </div>
+
                         <div id="Settings" className="menu-item">
                             <a href="#Settings" onClick={(e) => this.handleTopMenuClickEvent(e)}>Settings</a>
                         </div>
                     </div>
                 </div>
                 <div className="wheel-container">
-                    <div id= "winner" className="wheel-inner top-wrapper">
+                    <div id="winner" className="wheel-inner top-wrapper">
                         <div id="rotate-container">
                             <div id="rotatable"></div>
                         </div>
