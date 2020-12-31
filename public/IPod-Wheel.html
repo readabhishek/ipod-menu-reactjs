@@ -1,10 +1,101 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>$Title$</title>
+    <meta charset="UTF-8">
+    <title>iPod Wheel and Controls</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="../src/index.css" rel="stylesheet" type="text/css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="https://kit.fontawesome.com/7c81f1d981.js" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/zingtouch/1.0.6/zingtouch.min.js"
+            integrity="sha512-HmaXasRYOQJEXJWYwYCMcIA/XnPtW9WPvaBVWE2mQP6K31sRdcgaYUyB//P5540J4hFqMBcj6vkDEEGkwHkYdA=="
+            crossorigin="anonymous"></script>
+
 </head>
 <body>
-$END$
+    <div class="wheel-container">
+        <div id= "winner" class="wheel-inner top-wrapper">
+            <div id="rotate-container">
+                <div id="rotatable"></div>
+            </div>
+            <div id="interaction"></div>
+            <div id="menu" class="wheel-menu">
+                <span>MENU</span>
+            </div>
+            <div id="fd" class="wheel-fastForward">
+                <i class="fas fa-fast-forward" id="forward"></i>
+            </div>
+            <div id="bd" class="wheel-fastBackward">
+                <i class="fas fa-fast-backward" id="backward"></i>
+            </div>
+            <div id="pl" class="wheel-play">
+                <i class="fas fa-play" id="play"></i>
+            </div>
+            <div id="ps" class="wheel-pause">
+                <i class="fas fa-pause" id="pause"></i>
+            </div>
+            <div id="select" class="wheel-inner-circle">
+            </div>
+
+        </div>
+    </div>
+
 </body>
+<script>
+
+
+    document.getElementById("menu").addEventListener("click", ev => {
+        console.log('Clicked: ', ev.target.innerText);
+    });
+    document.getElementById("fd").addEventListener("click", ev => {
+        console.log('Clicked: ', ev.target.id);
+    });
+    document.getElementById("bd").addEventListener("click", ev => {
+        console.log('Clicked: ', ev.target.id);
+    });
+    document.getElementById("pl").addEventListener("click", ev => {
+        console.log('Clicked: ', ev.target.id);
+    });
+    document.getElementById("ps").addEventListener("click", ev => {
+        console.log('Clicked: ', ev.target.id);
+    });
+    document.getElementById("select").addEventListener("click", ev => {
+        console.log('Clicked: ', ev.target.id);
+    });
+
+
+
+    let currentAngle = 15;
+    //Using a layer on top of the entire page for "fat-finger" detection on mobile devices.
+    document.getElementById('rotatable').style.transform = 'rotate(15deg)';
+
+    let target = document.getElementById('winner');
+    let region = new ZingTouch.Region(target);
+
+    region.bind(target, 'rotate', function (e) {
+        let rotatable = document.getElementById('rotatable');
+        currentAngle += e.detail.distanceFromLast;
+        rotatable.style.transform = 'rotate(' + currentAngle + 'deg)';
+
+        setOutput([
+            ['Gesture', 'Rotate'],
+            ['angle', Math.floor(e.detail.angle) + "°"],
+            ['distanceFromOrigin', Math.floor(e.detail.distanceFromOrigin) + "°"],
+            ['distanceFromLast', Math.floor(e.detail.distanceFromLast) + "°"]
+        ]);
+
+    });
+
+    function setOutput(data) {
+        let outputStr = "> ";
+        let angle = '';
+        for (let i = 0; i < data.length; i++) {
+            outputStr += data[i][0] + ": " + data[i][1] + ((i === data.length - 1) ? '' : ' , ');
+            angle = data[1][1];
+        }
+        /*let output = document.getElementById('output');*/
+        console.log(angle.substring(0,angle.length-1));
+    }
+
+</script>
 </html>

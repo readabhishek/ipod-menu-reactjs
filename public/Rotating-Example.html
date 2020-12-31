@@ -1,10 +1,54 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>$Title$</title>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link href="../src/rotating.css" rel="stylesheet" type="text/css"/>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/zingtouch/1.0.6/zingtouch.min.js"
+            integrity="sha512-HmaXasRYOQJEXJWYwYCMcIA/XnPtW9WPvaBVWE2mQP6K31sRdcgaYUyB//P5540J4hFqMBcj6vkDEEGkwHkYdA=="
+            crossorigin="anonymous"></script>
+
 </head>
 <body>
-$END$
+    <div class="top-wrapper">
+        <div id="rotate-container">
+            <div id="rotatable"></div>
+        </div>
+    <div id="interaction" style=""></div>
+    </div>
 </body>
+
+<script>
+    let currentAngle = 15;
+    //Using a layer on top of the entire page for "fat-finger" detection on mobile devices.
+    document.getElementById('rotatable').style.transform = 'rotate(15deg)';
+
+    let target = document.getElementById('interaction');
+    let region = new ZingTouch.Region(target);
+
+    region.bind(target, 'rotate', function (e) {
+        let rotatable = document.getElementById('rotatable');
+        currentAngle += e.detail.distanceFromLast;
+        rotatable.style.transform = 'rotate(' + currentAngle + 'deg)';
+
+        setOutput([
+            ['Gesture', 'Rotate'],
+            ['angle', Math.floor(e.detail.angle) + "°"],
+            ['distanceFromOrigin', Math.floor(e.detail.distanceFromOrigin) + "°"],
+            ['distanceFromLast', Math.floor(e.detail.distanceFromLast) + "°"]
+        ]);
+
+    });
+
+    function setOutput(data) {
+        let outputStr = "> ";
+        let angle = '';
+        for (let i = 0; i < data.length; i++) {
+            outputStr += data[i][0] + ": " + data[i][1] + ((i === data.length - 1) ? '' : ' , ');
+            angle = data[1][1];
+        }
+        /*let output = document.getElementById('output');*/
+        console.log(angle.substring(0,angle.length-1));
+    }
+</script>
 </html>
