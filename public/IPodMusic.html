@@ -12,42 +12,15 @@
 <body>
     <div class="heading">Music</div>
     <div class="sidenav">
-
+        <div class="menu-item"><a href="#about">Go Back</a></div>
         <div class="menu-item"><a href="#about">All Songs</a></div>
         <div class="menu-item"><a href="#services">Artists</a></div>
         <div class="menu-item"><a href="#clients">Albums</a></div>
         <div class="menu-item"><a href="#clients">Videos</a></div>
-        <div class="menu-item">
-            <button class="dropdown-btn">PlayLists
-                <i class="fa fa-caret-down"></i>
-            </button>
-        </div>
-        <div id="drop-down-submenu1" class="dropdown-container">
-            <div class="menu-item"><a href="#">Favourite PlayList 1</a></div>
-            <div class="menu-item"><a href="#">Workouts</a></div>
-            <div class="menu-item"><a href="#">Romantic Songs</a></div>
-        </div>
+        <div class="menu-item"><a href="#clients">PlayLists</a></div>
         <div class="menu-item"><a href="#contact">Search</a></div>
+
     </div>
-
-    <script>
-        /* Loop through all dropdown buttons to toggle between hiding and showing its dropdown content - This allows the user to have multiple dropdowns without any conflict */
-        var dropdown = document.getElementsByClassName("dropdown-btn");
-        var i;
-
-        for (i = 0; i < dropdown.length; i++) {
-            dropdown[i].addEventListener("click", function () {
-                this.classList.toggle("active");
-                var dropdownContent = document.getElementById("drop-down-submenu1");
-                if (dropdownContent.style.display === "block") {
-                    dropdownContent.style.display = "none";
-                } else {
-                    dropdownContent.style.display = "block";
-                }
-            });
-        }
-    </script>
-
 
 </body>
 </html>
