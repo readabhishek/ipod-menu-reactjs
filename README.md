@@ -1,70 +1,46 @@
-# Getting Started with Create React App
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# iPod Menu
 
-## Available Scripts
+### Here we are trying to demonstrate the menu navigation of iPod using React JS
 
-In the project directory, you can run:
+The UI is divided into multiple components.
+1) The Container - This is the Top Most Parent which is directly being rendered by App.js
+   It maintains overall App State and renders other child components based on State properties.
+   
+2) ***Main Menu*** - This displays the main menu
 
-### `npm start`
+3) ***Music*** - displays Songs and Album lists - Navigate here, lots of actions to explore.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+4) ***Games*** - displays games list - Just for Demo, not much action
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+5) ***SubMenu 3 Songs*** - This loads all the songs from a static list
 
-### `npm test`
+6) ***SubMenu 4 Play Song*** - This UI Component plays songs as selected. 
+   Use Play/Pause/Forward/Backward buttons to explore the actions.
+   
+7) ***Wheel Button Control*** - This displays the iPod buttons and wheel for rotation gesture. 
+   This component is added with all above components, and it passes all the generated events 
+   back to the calling/parent component. The calling/parent component can take appropriate
+   action for those events (like GoBack, highlight menu item, select, play, pause etc)
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
 
-### `npm run build`
+8) ***Cover and Settings*** - Just for Demo, not much action
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## Features to explore
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+1) ### Menu Navigation from Main Menu to Sub menu.
+   ***Use rotation gesture on the wheel (Clock wise or Anti-Clock wise) from mouse pointer
+   to highlight menu items.*** 
+   
+2) ***Use Select button to select the highlighted menu item. 
+   Select button is the bottom center circle on the wheel.
+   Use mouse to click it***
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+3) ***Go Back (from Child Menu to Parent Menu)***
 
-### `npm run eject`
+4) ***Play Song*** - Navigate in the following path:  Main Menu > Music > All Songs > [select a song]
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+5) ***Play, Pause, Forward, Backward (while playing a song)***
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+6) ***Menu Button*** - To go back to main menu from anywhere
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
