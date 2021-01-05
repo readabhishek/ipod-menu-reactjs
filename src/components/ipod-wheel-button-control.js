@@ -135,13 +135,13 @@ class IpodWheelButtonControl extends React.Component {
             let diffAngle = Number(dis4mOrigin - initialDistance);
 
             if (diffAngle > Number(15)) {
-                console.log("ClockWise: ", "dis4mOrigin: ", dis4mOrigin, "initialDistance: ", initialDistance, "Diff", diffAngle);
+                //console.log("ClockWise: ", "dis4mOrigin: ", dis4mOrigin, "initialDistance: ", initialDistance, "Diff", diffAngle);
                 initialDistance = dis4mOrigin;
                 selectTopMenuItems(true);
             }
 
             if (diffAngle < Number(-15)) {
-                console.log("Anti-ClockWise: ", "dis4mOrigin: ", dis4mOrigin, "initialDistance: ", initialDistance, "Diff", diffAngle);
+                //console.log("Anti-ClockWise: ", "dis4mOrigin: ", dis4mOrigin, "initialDistance: ", initialDistance, "Diff", diffAngle);
                 initialDistance = dis4mOrigin;
                 selectTopMenuItems(false);
             }

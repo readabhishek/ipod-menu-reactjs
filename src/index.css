@@ -1,4 +1,7 @@
 
+html {
+  scroll-behavior: smooth;
+}
 
 .heading {
   padding: 15px 8px 0px 8px;
@@ -12,13 +15,12 @@
   border: 3px solid gray;
   width: 15.8%;
   height: 200px;
-  overflow-y:scroll;
+  overflow-y: auto;
 }
 
 /* Fixed sidenav, full height */
 .sidenav {
-  width: 200px;
-  /*position: fixed;*/
+  /*width: 200px;*/
   z-index: 1;
   top: 0;
   left: 0;
@@ -26,6 +28,7 @@
   overflow-x: hidden;
   padding-top: 20px;
   font-family: Helvetica;
+  overflow-y: auto;
 }
 
 /* Style the sidenav links and the dropdown button */
@@ -164,6 +167,40 @@ Optional: add a lighter background color and some left padding to change the des
 #rotatable {
   background-color: #44bcd8;
   border-radius: 50%;
+}
+
+
+
+/* For images under Cover Flow   */
+.cover-flow {
+  width: 40%;
+  height: 30%;
+  margin: 0 0 -2% 0;
+  padding: 0;
+}
+
+.image-div {
+  width: 200px;
+  height: 48%;
+  margin-bottom: 5%;
+}
+
+.go-back-margin {
+  margin-bottom: 4%;
+}
+
+.go-back {
+  font-size: larger;
+  margin-right: 2%;
+  color: tomato;
+}
+
+.song-playing {
+  font-size: small;
+  font-family: Helvetica;
+  font-weight: bold;
+  color: darkslateblue;
+  margin: 8% 0 4% 4%;
 }
 
 

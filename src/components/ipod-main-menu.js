@@ -16,24 +16,33 @@ class IpodMainMenu extends React.Component {
         this.state = {
             wheelEvent: '',
             highlightedItem: '',
+            currentScreen: 'MainMenu'
         }
 
     }
 
+    readState = () => {
+        return this.state;
+    }
+
     setWheelEvent = (wheelEvent) => {
         this.setState({wheelEvent: wheelEvent});
-        console.log("From Parent: Event Received: ", this.getWheelEvent());
+        //console.log("From Parent: Event Received: ", this.getWheelEvent());
 
         /* Now set the state in the top (Grand Parent) component  */
         if (this.getWheelEvent() === 'select') {
+
+            let ScreenStack = this.props.readState().ScreenStack; // Get the ScreenStack of Grand Parent (State).
+            ScreenStack.push(this.readState().currentScreen); // Push the current Screen into it, so that we can use it for GoBack later
+
             /* Note: We are passing MenuLevel = 2, because this means change the Menu and Show the SubMenu which is at level 2 */
-            this.props.updateMenuItem(this.getHighlightedItem(), 2, this.getHighlightedItem());
+            this.props.updateMenuItem(this.getHighlightedItem(), 2, this.getHighlightedItem(), ScreenStack);
         }
     }
 
     setHighlightedItem = (highlightedItem) => {
         this.setState({highlightedItem: highlightedItem});
-        console.log("From Parent: Event Received: ", this.getHighlightedItem());
+        //console.log("From Parent: Event Received: ", this.getHighlightedItem());
     }
 
     getWheelEvent = () => {
@@ -53,7 +62,7 @@ class IpodMainMenu extends React.Component {
     /* ********** Component Did Mount *********** */
 
     componentDidMount() {
-        // Do Nothing
+        // Nothing
     }
 
 
@@ -69,20 +78,20 @@ class IpodMainMenu extends React.Component {
                     <div className="sidenav">
 
                         <div id="Cover" className="menu-item">
-                            <a href="#Cover" onClick={(e) => this.handleTopMenuClickEvent(e)}>Cover Flow</a>
+                            <a href="#Cover">Cover Flow</a>
                         </div>
                         <div id="Music" className="menu-item">
-                            <a href="#Music" onClick={(e) => this.handleTopMenuClickEvent(e)}>Music</a>
+                            <a href="#Music">Music</a>
                         </div>
                         <div id="Games" className="menu-item">
-                            <a href="#Games" onClick={(e) => this.handleTopMenuClickEvent(e)}>Games</a>
+                            <a href="#Games">Games</a>
                         </div>
                         <div id="Playlists" className="menu-item">
-                            <a href="#Games" onClick={(e) => this.handleTopMenuClickEvent(e)}>PlayLists</a>
+                            <a href="#Playlists">PlayLists</a>
                         </div>
 
                         <div id="Settings" className="menu-item">
-                            <a href="#Settings" onClick={(e) => this.handleTopMenuClickEvent(e)}>Settings</a>
+                            <a href="#Settings">Settings</a>
                         </div>
                     </div>
                 </div>

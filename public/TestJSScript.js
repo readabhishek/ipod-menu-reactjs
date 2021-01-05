@@ -1,4 +1,0 @@
-
-abc = () => {
-    console.log("hiii");
-}
