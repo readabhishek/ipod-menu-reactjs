@@ -8,6 +8,8 @@ import Charlie from "../images/charlie.jpg";
 import EdSheeran from "../images/Ed-Sheeran.jpg";
 import Zayn from "../images/zayn.jpg";
 
+
+/* Just a demo component to show different Albums on screen. On selecting the Albums, a default song is played (to keep things simple)  */
 class IpodSubmenuCoverflow extends React.Component {
     constructor(props) {
         super(props);
@@ -23,6 +25,8 @@ class IpodSubmenuCoverflow extends React.Component {
         return this.state;
     }
 
+
+    /* One of the most important function. This updates States based on Wheel events. Based on updated States, Screen may change */
     setWheelEvent = (wheelEvent) => {
         this.setState({wheelEvent: wheelEvent});
         //console.log("From Parent: Event Received: ", this.getWheelEvent());
@@ -35,6 +39,15 @@ class IpodSubmenuCoverflow extends React.Component {
             let ScreenToGo = ScreenStack.pop();
             /* Note: We are passing MenuLevel = 2, because this means change the Menu and Show the SubMenu which is at level 2 */
             this.props.updateMenuItem(ScreenToGo, 1, this.getHighlightedItem(), ScreenStack);
+        } else if (this.getWheelEvent() === 'MENU') {
+            /* Go back to Main Menu */
+            this.props.updateMenuItem('', 1, this.getHighlightedItem(), []);
+        } else {
+            ScreenStack.push(this.readState().currentScreen); // Push the current Screen into it, so that we can use it for GoBack later
+            /* Just playing a song by default. Can make it better by playing exact song/video, but since this is just demo, making it simple */
+            if (this.getHighlightedItem() !== '') {
+                this.props.updateMenuItem('abaadBarbaad', 4, this.getHighlightedItem(), ScreenStack);
+            }
         }
     }
 
@@ -44,7 +57,7 @@ class IpodSubmenuCoverflow extends React.Component {
         if (this.getHighlightedItem() === 'GoBack') {   /* Just to bring scroll back on top  */
             window.location.href = "#header";
         }
-        console.log("From Parent: Event Received: ", this.getHighlightedItem());
+        //console.log("From Parent: Event Received: ", this.getHighlightedItem());
     }
 
     getWheelEvent = () => {

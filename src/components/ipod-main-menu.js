@@ -3,6 +3,8 @@ import '../index.css';
 import IpodWheelButtonControl from "./ipod-wheel-button-control";
 
 
+/* 2nd Level Parent which Presents the Main Menu. The 'MENU'  button in Wheel control will bring us back to this Main Menu once clicked  */
+
 class IpodMainMenu extends React.Component {
     constructor(props) {
         super(props);
@@ -14,9 +16,9 @@ class IpodMainMenu extends React.Component {
         document.body.appendChild(script1);
 
         this.state = {
-            wheelEvent: '',
+            wheelEvent: '',                   /* Wheel-Button component sends events and this property is used to store it */
             highlightedItem: '',
-            currentScreen: 'MainMenu'
+            currentScreen: 'MainMenu'        /* Screen Name */
         }
 
     }
@@ -25,13 +27,13 @@ class IpodMainMenu extends React.Component {
         return this.state;
     }
 
+    /* One of the most important function. This updates States based on Wheel events. Based on updated States, Screen may change */
     setWheelEvent = (wheelEvent) => {
         this.setState({wheelEvent: wheelEvent});
         //console.log("From Parent: Event Received: ", this.getWheelEvent());
 
         /* Now set the state in the top (Grand Parent) component  */
-        if (this.getWheelEvent() === 'select') {
-
+        if (this.getWheelEvent() === 'select' && this.getHighlightedItem() !== '') {    /* 'select' is sent as event when middle circle of the wheel button is pressed  */
             let ScreenStack = this.props.readState().ScreenStack; // Get the ScreenStack of Grand Parent (State).
             ScreenStack.push(this.readState().currentScreen); // Push the current Screen into it, so that we can use it for GoBack later
 
@@ -40,6 +42,7 @@ class IpodMainMenu extends React.Component {
         }
     }
 
+    /* This just updates current component State with highlighted item  */
     setHighlightedItem = (highlightedItem) => {
         this.setState({highlightedItem: highlightedItem});
         //console.log("From Parent: Event Received: ", this.getHighlightedItem());
@@ -54,21 +57,15 @@ class IpodMainMenu extends React.Component {
     }
 
     handleTopMenuClickEvent = (e) => {
-        console.log("Menu Item Clicked: ", e.target.parentNode.id);
+        //console.log("Menu Item Clicked: ", e.target.parentNode.id);
     }
 
 
-
-    /* ********** Component Did Mount *********** */
-
-    componentDidMount() {
-        // Nothing
-    }
 
 
     /* ********* Render Function **********  */
 
-
+    /* Note: IpodWheelButtonControl component is called at the end, that's the Wheel Control which passes events back to current Component  */
     render() {
         const updateState = this.props;
         return (
@@ -76,10 +73,6 @@ class IpodMainMenu extends React.Component {
                 <div id="screen-box">
                     <div className="heading">iPod.js</div>
                     <div className="sidenav">
-
-                        <div id="Cover" className="menu-item">
-                            <a href="#Cover">Cover Flow</a>
-                        </div>
                         <div id="Music" className="menu-item">
                             <a href="#Music">Music</a>
                         </div>
@@ -89,7 +82,9 @@ class IpodMainMenu extends React.Component {
                         <div id="Playlists" className="menu-item">
                             <a href="#Playlists">PlayLists</a>
                         </div>
-
+                        <div id="Cover" className="menu-item">
+                            <a href="#Cover">Cover Flow</a>
+                        </div>
                         <div id="Settings" className="menu-item">
                             <a href="#Settings">Settings</a>
                         </div>

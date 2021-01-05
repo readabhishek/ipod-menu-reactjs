@@ -2,15 +2,18 @@ import React from 'react';
 import '../index.css';
 
 import IpodWheelButtonControl from "./ipod-wheel-button-control";
+import {Songs} from "../data/Songs";
 
+
+/* This Component is used to Play the Song */
 class IpodSubmenu4Playsong extends React.Component {
     constructor(props) {
         super(props);
-
+        this.selectedSongObj = {};
         this.state = {
-            wheelEvent: '',
+            wheelEvent: '',                 /* Wheel-Button component sends events and this property is used to store it */
             highlightedItem: '',
-            currentScreen: 'PlaySong'
+            currentScreen: 'PlaySong',
         }
     }
 
@@ -18,6 +21,19 @@ class IpodSubmenu4Playsong extends React.Component {
         return this.state;
     }
 
+    /* We are using this function because the current component re-renders after every Wheel event.
+       Backward and Forward button changes the song but sometimes the previous song keeps playing. This fixes that issue.
+    */
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        /* Called if we update state while pressing forward and backward button */
+        const audio = document.getElementsByClassName('player')[0];
+        audio.src = this.selectedSongObj.link;
+        //audio.pause();
+        //audio.load();
+        //audio.play();
+    }
+
+    /* One of the most important function. This updates States based on Wheel events. Based on updated States, Screen may change */
     setWheelEvent = (wheelEvent) => {
         this.setState({wheelEvent: wheelEvent});
         //console.log("From Parent: Event Received: ", this.getWheelEvent());
@@ -28,15 +44,45 @@ class IpodSubmenu4Playsong extends React.Component {
             /* GoBack Scenario */
             let ScreenToGo = ScreenStack.pop();
 
-            /* Note: We are passing MenuLevel = 2, because this means change the Menu and Show the SubMenu which is at level 2 */
-            this.props.updateMenuItem(ScreenToGo, 3, this.getHighlightedItem(), ScreenStack);
+            if (ScreenToGo === 'Cover') {   /* By default Cover screen will also play same song. This ensures we go back appropriately */
+                this.props.updateMenuItem(ScreenToGo, 2, this.getHighlightedItem(), ScreenStack);
+            } else {
+                /* Go back to previous Menu */
+                this.props.updateMenuItem(ScreenToGo, 3, this.getHighlightedItem(), ScreenStack);
+            }
+        } else if (this.getWheelEvent() === 'MENU') {
+            /* Go back to Main Menu */
+            this.props.updateMenuItem('', 1, this.getHighlightedItem(), []);
+        } else if (this.getWheelEvent() === 'play') {
+            let song = document.getElementsByClassName('player')[0];
+            song.play();
+        } else if (this.getWheelEvent() === 'pause') {
+            let song = document.getElementsByClassName('player')[0];
+            song.pause();
+        } else if (this.getWheelEvent() === 'forward') {
+            /* Next Song being Played */
+            let songList = Songs.map(function (el) { return el.id; });
+            let songIndex = songList.indexOf(this.props.readState().MenuItem);
+            if (songIndex < songList.length-1) {
+                let nextSong = songList[++songIndex];
+                this.props.updateMenuItem(nextSong, 4, nextSong, ScreenStack);
+            }
+        } else if (this.getWheelEvent() === 'backward') {
+            /* Previous Song being Played  */
+            let songList = Songs.map(function (el) { return el.id; });
+            let songIndex = songList.indexOf(this.props.readState().MenuItem);
+            if (songIndex > 0) {
+                let nextSong = songList[--songIndex];
+                this.props.updateMenuItem(nextSong, 4, nextSong, ScreenStack);
+            }
         } else {
-            ScreenStack.push(this.readState().currentScreen); // Push the current Screen into it, so that we can use it for GoBack later
-            this.props.updateMenuItem(this.getHighlightedItem(), 4, this.getHighlightedItem(), ScreenStack);
+            console.log("Default Action");
+            this.props.updateMenuItem(this.props.readState().MenuItem, 4, this.props.readState().MenuItem, ScreenStack);
         }
 
     }
 
+    /* This just updates current component State with highlighted item  */
     setHighlightedItem = (highlightedItem) => {
         this.setState({highlightedItem: highlightedItem});
         document.getElementById(this.getHighlightedItem()).scrollIntoView(true);
@@ -56,9 +102,13 @@ class IpodSubmenu4Playsong extends React.Component {
 
 
     render() {
-
+        /* Get the Song from the selected menu item and get the details from the Song List (data)  */
         const {readState} = this.props;
         const songSelected = readState().MenuItem;
+        let songList = Songs.map(function (el) { return el.id; });
+        let songIndex = songList.indexOf(songSelected);
+        this.selectedSongObj = Songs[songIndex];
+        console.log("Song Playing: ", this.selectedSongObj);
 
         return (
             <div>
@@ -69,61 +119,15 @@ class IpodSubmenu4Playsong extends React.Component {
                             <i className="fas fa-chevron-circle-left go-back"></i>Back to previous menu</a></div>
 
                         <div>
-                            {(songSelected === 'khairiyat') &&
-                            (<div>
-                                <div className="song-playing">Khairiyat (Happy) - Chhichhore</div>
-                                <audio controls autoPlay>
-                                    <source src="https://files1.mp3slash.xyz/stream/94b65324b4a070aa416b073ee3c6e2db" type="audio/mp3">
-                                    </source>
-                                </audio>
-                            </div>)}
-
-                            {(songSelected === 'coolieNo1') &&
-                            (<div>
-                                <div className="song-playing">Teri Bhabhi - Coolie No. 1</div>
-                                <audio controls autoPlay>
-                                <source src="https://files1.mp3slash.xyz/stream/6e404c63f6d4b9c0a7ca73c077f5bb61" type="audio/mp3">
-                                </source>
-                            </audio>
-                            </div>)}
-
-                            {(songSelected === 'dusBahane') &&
-                            (<div>
-                                <div className="song-playing">Dus Bahane 2.0 - Baaghi 3</div>
-                                <audio controls autoPlay>
-                                <source src="https://files1.mp3slash.xyz/stream/d667882b4f0930fcbf65a9c123853f0a" type="audio/mp3">
-                                </source>
-                            </audio>
-                            </div>)}
-
-                            {(songSelected === 'abaadBarbaad') &&
-                            (<div>
-                                <div className="song-playing">Abaad Barbaad - Ludo</div>
-                                <audio controls autoPlay>
-                                <source src="https://files1.mp3slash.xyz/stream/56b024737b50e30e977a6fe4ccb41f8e" type="audio/mp3">
-                                </source>
-                            </audio>
-                            </div>)}
-
-                            {(songSelected === 'muquabla') &&
-                            (<div>
-                                <div className="song-playing">Muquabla - Street Dancer 3</div>
-                                <audio controls autoPlay>
-                                <source src="https://files1.mp3slash.xyz/stream/455987a38b2562ef299a1b9d0dfdb0ba" type="audio/mp3">
-                                </source>
-                            </audio>
-                            </div>)}
-
-                            {(songSelected === 'ghungroo') &&
-                            (<div>
-                                <div className="song-playing">Ghungroo - War</div>
-                                <audio controls autoPlay>
-                                <source src="https://files1.mp3slash.xyz/stream/9cc79a0440e73232e263afb23c535884" type="audio/mp3">
-                                </source>
-                            </audio>
-                            </div>)}
-
-
+                            {
+                                <div>
+                                    <div className="song-playing">{this.selectedSongObj.name}</div>
+                                    <audio controls autoPlay className="player">
+                                        <source src={this.selectedSongObj.link} type="audio/mp3">
+                                        </source>
+                                    </audio>
+                                </div>
+                            }
 
                         </div>
                     </div>

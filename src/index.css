@@ -203,6 +203,10 @@ Optional: add a lighter background color and some left padding to change the des
   margin: 8% 0 4% 4%;
 }
 
+.wheel-pointer {
+  cursor: pointer;
+}
+
 
 
 

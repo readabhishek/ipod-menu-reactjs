@@ -30,6 +30,8 @@ class IpodSubmenuSettings extends React.Component {
 
             /* Note: We are passing MenuLevel = 2, because this means change the Menu and Show the SubMenu which is at level 2 */
             this.props.updateMenuItem(ScreenToGo, 1, this.getHighlightedItem(), ScreenStack);
+        } else if (this.getWheelEvent() === 'MENU') {
+            this.props.updateMenuItem('', 1, this.getHighlightedItem(), []);
         }
 
     }
@@ -40,7 +42,7 @@ class IpodSubmenuSettings extends React.Component {
         if (this.getHighlightedItem() === 'GoBack') {   /* Just to bring scroll back on top  */
             window.location.href = "#header";
         }
-        console.log("From Parent: Event Received: ", this.getHighlightedItem());
+        //console.log("From Parent: Event Received: ", this.getHighlightedItem());
     }
 
     getWheelEvent = () => {

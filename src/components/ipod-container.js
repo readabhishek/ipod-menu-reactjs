@@ -8,21 +8,24 @@ import IpodSubmenuCoverflow from "./ipod-submenu-coverflow";
 import IpodSubmenu3Songs from "./ipod-submenu3-songs";
 import IpodSubmenu4Playsong from "./ipod-submenu4-playsong";
 
+/* Top Most Component which maintains the Top Most State. Also being referred as Grand Parent in the comments   */
+
 class IpodContainer extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            MenuItem: '',
-            MenuLevel: 1,
-            HighlightedItem: '',
-            ScreenStack: []
+            MenuItem: '',          /* This stores the current Menu Item being selected.   */
+            MenuLevel: 1,          /* Used to locate which Menu/Submenu level  */
+            HighlightedItem: '',   /* This stores the Highlighted Item in screen. Note this is different than selected Item */
+            ScreenStack: []        /* This stores the previous screens visited, to facilitate Go Back action */
         }
     }
 
-    readState = () => {
+    readState = () => {           /* Used to return State - In case we need to read the State properties */
         return this.state;
     }
 
+    /* This function updates the State. This is passed to child components in-order to facilitate State changes */
     updateMenuItem = (MenuItem, MenuLevel, HighlightedItem, ScreenStack) => {
            this.setState((prev) => {
                 return {
@@ -40,6 +43,7 @@ class IpodContainer extends React.Component {
 
     render() {
         console.log("State: ", this.state);
+        /* Every Screen/UI/Child-Component has a Level and Screen Name */
         return (
             <div>
                 {

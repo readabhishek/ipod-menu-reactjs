@@ -3,6 +3,7 @@ import '../index.css';
 
 import IpodWheelButtonControl from "./ipod-wheel-button-control";
 
+/* Displays the Music Menu  */
 class IpodSubMenuMusic extends React.Component {
     constructor(props) {
         super(props);
@@ -18,6 +19,7 @@ class IpodSubMenuMusic extends React.Component {
         return this.state;
     }
 
+    /* One of the most important function. This updates States based on Wheel events. Based on updated States, Screen may change */
     setWheelEvent = (wheelEvent) => {
         this.setState({wheelEvent: wheelEvent});
         //console.log("From Parent: Event Received: ", this.getWheelEvent());
@@ -31,13 +33,20 @@ class IpodSubMenuMusic extends React.Component {
 
             /* Note: We are passing MenuLevel = 2, because this means change the Menu and Show the SubMenu which is at level 2 */
             this.props.updateMenuItem(ScreenToGo, 1, this.getHighlightedItem(), ScreenStack);
+        } else if (this.getWheelEvent() === 'MENU') {
+            /* Go Back to Main Menu */
+            this.props.updateMenuItem('', 1, this.getHighlightedItem(), []);
         } else {
+            /* Go to Songs Screen  */
             ScreenStack.push(this.readState().currentScreen); // Push the current Screen into it, so that we can use it for GoBack later
-            this.props.updateMenuItem(this.getHighlightedItem(), 3, this.getHighlightedItem(), ScreenStack);
+            if (this.getHighlightedItem() !== '') {
+                this.props.updateMenuItem(this.getHighlightedItem(), 3, this.getHighlightedItem(), ScreenStack);
+            }
         }
 
     }
 
+    /* This just updates current component State with highlighted item  */
     setHighlightedItem = (highlightedItem) => {
         this.setState({highlightedItem: highlightedItem});
         document.getElementById(this.getHighlightedItem()).scrollIntoView(true);

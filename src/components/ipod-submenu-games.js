@@ -3,6 +3,9 @@ import '../index.css';
 
 import IpodWheelButtonControl from "./ipod-wheel-button-control";
 
+
+/* Demo Component to display list of Games. Not much action here */
+
 class IpodSubMenuGames extends React.Component {
     constructor(props) {
         super(props);
@@ -18,6 +21,7 @@ class IpodSubMenuGames extends React.Component {
         return this.state;
     }
 
+    /* One of the most important function. This updates States based on Wheel events. Based on updated States, Screen may change */
     setWheelEvent = (wheelEvent) => {
         this.setState({wheelEvent: wheelEvent});
         //console.log("From Parent: Event Received: ", this.getWheelEvent());
@@ -30,6 +34,8 @@ class IpodSubMenuGames extends React.Component {
             let ScreenToGo = ScreenStack.pop();
             /* Note: We are passing MenuLevel = 2, because this means change the Menu and Show the SubMenu which is at level 2 */
             this.props.updateMenuItem(ScreenToGo, 1, this.getHighlightedItem(), ScreenStack);
+        } else if (this.getWheelEvent() === 'MENU') {
+            this.props.updateMenuItem('', 1, this.getHighlightedItem(), []);
         }
 
     }
